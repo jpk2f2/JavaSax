@@ -24,7 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SaxLoader {
     
-    //SaxNode root;
+    static SaxNode root;
     
     //allow me to move root out of the inner class
     /*public SaxNode retRoot(){
@@ -33,13 +33,12 @@ public class SaxLoader {
     
     public void setRoot(SaxNode node){
         this.root = node;
-    }*/
-    
+    }
+    */
     
     public static SaxNode load(File xmlFile) throws Exception
     {
-        SaxNode root = null;// 
-        
+        //SaxNode root = null;// 
      
         
             
@@ -49,7 +48,6 @@ public class SaxLoader {
         List<SaxNode> list = new ArrayList<>(); 
 
         SaxNode currentNode;
-        SaxNode tempRoot;
 
 
             @Override
@@ -98,12 +96,13 @@ public class SaxLoader {
                         currentNode = list.get(list.size()-1);
                     }else{
                         root = end;
+                      
+                        
                         //setRoot(end);
                         //setRoot(end);
                         currentNode = null;
                     }
-                }
-                setRoot(tempRoot);
+                }                
             }
 
         };

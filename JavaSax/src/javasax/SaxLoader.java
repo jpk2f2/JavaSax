@@ -113,9 +113,7 @@ public class SaxLoader {
                 saxParser.parse(xmlFile.getAbsoluteFile(), handler);
             
             
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(SaxLoader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
+        } catch (ParserConfigurationException | SAXException ex) {
             Logger.getLogger(SaxLoader.class.getName()).log(Level.SEVERE, null, ex);
         } 
      //root = list.get(0);

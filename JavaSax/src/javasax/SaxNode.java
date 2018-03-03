@@ -27,12 +27,34 @@ public class SaxNode {
     }
     
     public void SetName(String name){
-        this.name = name;
-        
+        this.name = name; 
+    }
+    
+    public String getName(){
+        return this.name;
     }
     
     public void setAtt(LinkedHashMap<String,String> att){
         this.attributes = att;
     }
     
+    public LinkedHashMap getAtt(){
+        return this.attributes;
+    }
+    
+    public void setProp(LinkedHashMap<String,List<SaxNode>> prop){
+        this.properties = prop;
+    }
+    
+    public LinkedHashMap<String,List<SaxNode>> getProp(){
+        return this.properties;
+    }
+    
+    public void SetContent(String content){
+        this.content = content; 
+    }
+    
+    public String getContent(){
+        return this.content;
+    }
 }

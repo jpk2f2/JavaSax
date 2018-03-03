@@ -27,7 +27,7 @@ public class SaxLoader {
     //SaxNode root;
     
     //allow me to move root out of the inner class
-   /* public SaxNode retRoot(){
+    /*public SaxNode retRoot(){
         return this.root;
     }
     
@@ -38,77 +38,80 @@ public class SaxLoader {
     
     public static SaxNode load(File xmlFile) throws Exception
     {
-        SaxNode root;// 
+        SaxNode root = null;// 
         
      
-        try{
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-            
-            DefaultHandler handler = new DefaultHandler() {
-                
-            
-            List<SaxNode> list = new ArrayList<>(); 
         
-            SaxNode currentNode;
-                
-             
-                
-                @Override
-                public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
-                    
-                    SaxNode node = new SaxNode();
-                    
-                    node.SetName(qName);
-                    LinkedHashMap<String,String> tempHash = new LinkedHashMap<>();
-                    
-                    for(int i = 0; i<attributes.getLength();i++){
-                        tempHash.put(attributes.getQName(i), attributes.getValue(i));
-                        //node.attributes.put(attributes.getQName(i), attributes.getValue(i));
-                    }
-                    
-                    node.setAtt(tempHash);
-                    list.add(node);
-                    
-                    if(currentNode != null){
-                        if(currentNode.getProp().get(qName) != null){
-                            currentNode.getProp().get(qName).add(node);
-                            
-                        }else{
-                            ArrayList<SaxNode> tempList = new ArrayList<>();
-                            tempList.add(node);
-                            currentNode.getProp().put(qName, tempList);
-                        }
-                    }
-                    currentNode = node;
-                }
-                
-                   @Override
-                public void characters(char ch[], int start, int length) throws SAXException{
-                    String temp = new String(ch,start,length);
-                    currentNode.SetContent((currentNode.getContent()+temp).replace(" ","").replace("\n", ""));
-                }
-                
-                @Override
-                public void endElement(String uri, String localName, String qName) throws SAXException {
-                    int length = list.size();
-                    SaxNode end = list.remove(length-1);
-                    if(end != null){
-                        end.SetContent(end.getContent().trim());
-                        
-                        if(!list.isEmpty()){
-                            currentNode = list.get(list.size()-1);
-                        }else{
-                            root = end;
-                            //setRoot(end);
-                            //setRoot(end);
-                            currentNode = null;
-                        }
-                    }
-                }
-            };
             
-            saxParser.parse(xmlFile.getAbsoluteFile(), handler);
+        DefaultHandler handler = new DefaultHandler() {
+
+
+        List<SaxNode> list = new ArrayList<>(); 
+
+        SaxNode currentNode;
+        SaxNode tempRoot;
+
+
+            @Override
+            public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
+
+                SaxNode node = new SaxNode();
+
+                node.SetName(qName);
+                LinkedHashMap<String,String> tempHash = new LinkedHashMap<>();
+
+                for(int i = 0; i<attributes.getLength();i++){
+                    tempHash.put(attributes.getQName(i), attributes.getValue(i));
+                    //node.attributes.put(attributes.getQName(i), attributes.getValue(i));
+                }
+
+                node.setAtt(tempHash);
+                list.add(node);
+
+                if(currentNode != null){
+                    if(currentNode.getProp().get(qName) != null){
+                        currentNode.getProp().get(qName).add(node);
+
+                    }else{
+                        ArrayList<SaxNode> tempList = new ArrayList<>();
+                        tempList.add(node);
+                        currentNode.getProp().put(qName, tempList);
+                    }
+                }
+                currentNode = node;
+            }
+
+               @Override
+            public void characters(char ch[], int start, int length) throws SAXException{
+                String temp = new String(ch,start,length);
+                currentNode.SetContent((currentNode.getContent()+temp).replace(" ","").replace("\n", ""));
+            }
+
+            @Override
+            public void endElement(String uri, String localName, String qName) throws SAXException {
+                int length = list.size();
+                SaxNode end = list.remove(length-1);
+                if(end != null){
+                    end.SetContent(end.getContent().trim());
+
+                    if(!list.isEmpty()){
+                        currentNode = list.get(list.size()-1);
+                    }else{
+                        root = end;
+                        //setRoot(end);
+                        //setRoot(end);
+                        currentNode = null;
+                    }
+                }
+                setRoot(tempRoot);
+            }
+
+        };
+            try{
+                SAXParserFactory factory = SAXParserFactory.newInstance();
+                SAXParser saxParser = factory.newSAXParser();
+                //setRoot(tempRoot);
+                saxParser.parse(xmlFile.getAbsoluteFile(), handler);
             
             
         } catch (ParserConfigurationException ex) {

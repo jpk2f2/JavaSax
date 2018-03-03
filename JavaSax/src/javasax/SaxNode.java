@@ -37,7 +37,7 @@ public class SaxNode {
         this.attributes = att;
     }
     
-    public LinkedHashMap getAtt(){
+    public LinkedHashMap<String,String> getAtt(){
         return this.attributes;
     }
     
